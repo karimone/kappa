@@ -1,5 +1,7 @@
 import json
 import click
+import subprocess
+from sanitize_filename import sanitize
 import os
 from pprint import pprint
 
@@ -21,9 +23,20 @@ def snack(json_file: str) -> None:
     downloaded_videos: list[str] = list()
     
     for obj in data:
-        pprint(obj)
+        url = obj["url"]
 
         # generate the filename
+        filename: str = sanitize(obj["name"])
+        filename = filename.replace(" ", "_")
+
+        pprint(f"{filename=} {url=}")
+
+        ts_filename = f"{filename}.ts"
+        cmd = ["hlsdl", url, "-o",  ts_filename]
+        output = subprocess.run(cmd, capture_output=True, text=True)
+        click.echo(output.stdout)
+        downloaded_videos.append(filename)
+
         # download the hdsl using hsddl and adding .ts
         # log the download
         # store the video file name in `downloaded_videos`

@@ -10,6 +10,7 @@ python = "^3.12"
 rich = "^13.7.0"
 click = "^8.1.7"
 ffmpeg-python = "^0.2.0"
+sanitize-filename = "^1.2.0"
 
 [tool.poetry.scripts]
 snack = "kappa.snack.convert:snack"
